@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聯絡資訊</title>
+  <style>
+    :root {
+      --bg-top: #fef6e4;
+      --bg-bottom: #eaf7f1;
+      --panel: rgba(255, 255, 255, 0.94);
+      --text: #1e293b;
+      --accent: #0f766e;
+      --shadow: 0 14px 30px rgba(15, 118, 110, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 18px;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .card {
+      width: min(700px, 100%);
+      background: var(--panel);
+      border: 3px solid #e8eee7;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 30px);
+      text-align: center;
+    }
+
+    .logo {
+      width: clamp(86px, 12vw, 118px);
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: clamp(1.02rem, 1.5vw, 1.14rem);
+      line-height: 1.55;
+    }
+
+    .email-box {
+      margin: 0 auto 16px;
+      border: 2px solid #dcebe6;
+      border-radius: 14px;
+      background: #ffffff;
+      max-width: 460px;
+      padding: 12px;
+    }
+
+    .email-label {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .email-link {
+      color: #0f766e;
+      font-weight: 700;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .email-link:hover {
+      text-decoration: underline;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 2px solid #cfe5df;
+      background: #ffffff;
+      color: #0f172a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      border-color: #2dd4bf;
+      background: #f0fdfa;
+    }
+
+    .copyright {
+      margin-top: 12px;
+      color: #334155;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="logo" src="LOGO.png" alt="logo">
+    <h1 id="title"></h1>
+    <p id="desc"></p>
+    <div class="email-box">
+      <span id="emailLabel" class="email-label"></span>
+      <a id="emailLink" class="email-link" href="#"></a>
+    </div>
+    <a id="backLink" class="back-btn" href="index.html"></a>
+    <div id="copyright" class="copyright"></div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const rawType = params.get("type");
+    const type = rawType === "collaboration" ? "collaboration" : "feedback";
+    const email = params.get("email") || "4528cindy@gmail.com";
+
+    let locale = params.get("lang") === "en" ? "en" : "zh";
+    if (!params.get("lang")) {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem("changzhiguan.progress.v1") || "{}");
+        if (saved.locale === "en") {
+          locale = "en";
+        }
+      } catch (error) {
+        // Ignore parse errors and keep default locale.
+      }
+    }
+
+    const i18n = {
+      zh: {
+        feedbackTitle: "意見回饋",
+        feedbackDesc: "歡迎把使用心得與建議寄給我們，我們會持續改善遊戲體驗。",
+        collabTitle: "合作聯絡",
+        collabDesc: "若有課程、活動或品牌合作提案，歡迎來信聯絡。",
+        emailLabel: "Email：",
+        back: "回到遊戲首頁",
+        pageTitle: "聯絡資訊",
+        copyright: "© {year} 長智館. 版權所有。",
+        logoAlt: "長智館 LOGO",
+      },
+      en: {
+        feedbackTitle: "Feedback",
+        feedbackDesc: "Send us your ideas and experience. We will keep improving the game.",
+        collabTitle: "Collaboration",
+        collabDesc: "For courses, events, or brand partnerships, feel free to contact us by email.",
+        emailLabel: "Email:",
+        back: "Back to Home",
+        pageTitle: "Contact",
+        copyright: "© {year} fOREVER YOUNG. All rights reserved.",
+        logoAlt: "fOREVER YOUNG logo",
+      },
+    };
+
+    const lang = i18n[locale];
+    const year = new Date().getFullYear();
+    const title = type === "collaboration" ? lang.collabTitle : lang.feedbackTitle;
+    const desc = type === "collaboration" ? lang.collabDesc : lang.feedbackDesc;
+
+    document.documentElement.lang = locale === "en" ? "en" : "zh-Hant";
+    document.title = `${title} | ${lang.pageTitle}`;
+    document.querySelector(".logo").alt = lang.logoAlt;
+    document.getElementById("title").textContent = title;
+    document.getElementById("desc").textContent = desc;
+    document.getElementById("emailLabel").textContent = lang.emailLabel;
+    document.getElementById("emailLink").textContent = email;
+    document.getElementById("emailLink").href = `mailto:${email}`;
+    document.getElementById("backLink").textContent = lang.back;
+    document.getElementById("copyright").textContent = lang.copyright.replace("{year}", String(year));
+  </script>
+</body>
+</html>

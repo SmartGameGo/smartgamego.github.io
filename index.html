@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>長輩益智遊戲站</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="bg-circle circle-a" aria-hidden="true"></div>
+  <div class="bg-circle circle-b" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-row">
+      <div class="brand-mark" aria-label="長智館品牌">
+        <div class="brand-logo-box" aria-hidden="true">
+          <img class="brand-logo" src="LOGO.png" alt="長智館 LOGO">
+        </div>
+        <div class="brand-name-wrap">
+          <span id="brandName" class="brand-name">長智館</span>
+        </div>
+      </div>
+      <div class="site-copy">
+        <div class="site-copy-top">
+          <button id="langToggle" class="lang-btn" type="button">English</button>
+        </div>
+        <h1 id="siteTitle">長輩益智遊戲站</h1>
+        <p id="siteSubtitle">左側直接選遊戲、難度與關卡。每個難度都有 50 關。</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side-menu" aria-label="左側選單">
+      <h2 id="menuTitle">遊戲選單</h2>
+
+      <section class="side-block">
+        <h3 id="gamesSectionTitle">遊戲</h3>
+        <button id="navLinkBtn" class="nav-btn active" type="button" data-game="link">1. 連連看配對</button>
+        <button id="navMemoryBtn" class="nav-btn" type="button" data-game="memory">2. 翻牌記憶</button>
+      </section>
+
+      <section class="side-block">
+        <h3 id="difficultySectionTitle">難度</h3>
+        <div class="difficulty-grid">
+          <button id="diffEasyBtn" class="diff-btn" type="button" data-level="0">簡單</button>
+          <button id="diffNormalBtn" class="diff-btn" type="button" data-level="1">普通</button>
+          <button id="diffHardBtn" class="diff-btn" type="button" data-level="2">困難</button>
+          <button id="diffExpertBtn" class="diff-btn" type="button" data-level="3">高手</button>
+        </div>
+      </section>
+
+      <section class="side-block">
+        <h3 id="levelSectionTitle">關卡（每種難度 50 關）</h3>
+        <div class="level-row">
+          <button id="levelDown" class="mini-btn" type="button">上一關</button>
+          <strong id="levelDisplay">第 1 / 50 關</strong>
+          <button id="levelUp" class="mini-btn" type="button">下一關</button>
+        </div>
+        <input id="levelSlider" type="range" min="1" max="50" value="1" step="1" aria-label="關卡選擇">
+      </section>
+
+      <section class="side-block rule-box">
+        <p id="difficultyHint" class="hint"></p>
+        <p id="ruleAutoUp">過關時：若步數少或花費時間短，關卡自動上升 1 級。</p>
+        <p id="ruleAutoDown">時間到未過關：關卡自動下降 1 級。</p>
+      </section>
+    </aside>
+
+    <main class="play-area">
+      <section id="linkGameScreen" class="screen active" aria-live="polite">
+        <div class="toolbar">
+          <button class="action-btn restart" type="button" data-game="link">重新開始本關</button>
+          <p id="linkRoundMeta" class="round-meta"></p>
+        </div>
+        <h2 id="linkTitle">連連看配對</h2>
+        <p id="linkInstruction" class="instruction">玩法：按兩張相同圖案即可配對成功。</p>
+        <div class="timer-box">
+          <div class="timer-head">
+            <span id="linkTimerLabel">時間條</span>
+            <strong id="linkTimerText">-- 秒</strong>
+          </div>
+          <div class="timer-track" aria-hidden="true">
+            <div id="linkTimerBar" class="timer-bar"></div>
+          </div>
+        </div>
+        <p id="linkStatus" class="status" role="status" aria-live="polite"></p>
+        <div class="board-wrap">
+          <div id="linkBoard" class="board"></div>
+        </div>
+      </section>
+
+      <section id="memoryGameScreen" class="screen" aria-live="polite" aria-hidden="true">
+        <div class="toolbar">
+          <button class="action-btn restart" type="button" data-game="memory">重新開始本關</button>
+          <p id="memoryRoundMeta" class="round-meta"></p>
+        </div>
+        <h2 id="memoryTitle">翻牌記憶</h2>
+        <p id="memoryInstruction" class="instruction">玩法：一次翻兩張，圖案相同就保留。</p>
+        <div class="timer-box">
+          <div class="timer-head">
+            <span id="memoryTimerLabel">時間條</span>
+            <strong id="memoryTimerText">-- 秒</strong>
+          </div>
+          <div class="timer-track" aria-hidden="true">
+            <div id="memoryTimerBar" class="timer-bar"></div>
+          </div>
+        </div>
+        <p id="memoryStatus" class="status" role="status" aria-live="polite"></p>
+        <div class="board-wrap">
+          <div id="memoryBoard" class="board"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <section class="bottom-links" aria-label="聯絡入口">
+    <a id="feedbackLink" class="bottom-link-btn" href="contact.html?type=feedback">意見回饋</a>
+    <a id="collabLink" class="bottom-link-btn" href="contact.html?type=collaboration">合作聯絡</a>
+  </section>
+
+  <footer class="site-footer">
+    <small id="copyrightText">© 2026 長智館. 版權所有。</small>
+  </footer>
+</body>
+</html>
